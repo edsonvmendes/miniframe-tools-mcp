@@ -1,6 +1,7 @@
 {
   "name": "miniframe-tools-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "mcpName": "io.github.edsonvmendes/miniframe-tools",
   "description": "MCP server for Brazilian data and document tools: Pix BR Codes, CEP and CNPJ lookup, web capture and PDF compression. Pay-per-call in USDC on Base via x402 — no signup, no API key.",
   "type": "module",
   "bin": {
