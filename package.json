@@ -1,0 +1,40 @@
+{
+  "name": "miniframe-tools-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Brazilian data and document tools: Pix BR Codes, CEP and CNPJ lookup, web capture and PDF compression. Pay-per-call in USDC on Base via x402 — no signup, no API key.",
+  "type": "module",
+  "bin": {
+    "miniframe-tools-mcp": "index.js"
+  },
+  "files": ["index.js", "README.md"],
+  "engines": {
+    "node": ">=20"
+  },
+  "homepage": "https://tools.miniframe.com.br",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edsonvmendes/miniframe-tools-mcp.git"
+  },
+  "author": "Edson Mendes",
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "x402",
+    "brazil",
+    "pix",
+    "cep",
+    "cnpj",
+    "pdf",
+    "screenshot",
+    "markdown",
+    "agent-tools"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@x402/evm": "^2.19.0",
+    "@x402/fetch": "^2.19.0",
+    "viem": "^2.21.0",
+    "zod": "^3.23.8"
+  }
+}
