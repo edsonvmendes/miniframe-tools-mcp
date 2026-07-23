@@ -1,12 +1,14 @@
 # MiniFrame Tools
 
-**Brazilian data and document tools for AI agents.** Pix BR Codes, CEP address
-lookup, CNPJ company lookup — plus web capture (Markdown, screenshot, PDF) and PDF
-compression.
+**The Brazilian toolkit for AI agents** — plus the web and document work agents
+can't do inside a sandbox.
 
-Pay-per-call in USDC on Base via [x402](https://x402.org). **No signup, no API key,
-no subscription.** Your agent pays a few cents per call from its own wallet, and
-nothing at all when it is idle.
+Ask your agent to generate a Pix payment code, resolve a CEP to a full address, or
+pull a company's record from the CNPJ registry. Point it at a JavaScript-heavy page
+and get clean Markdown, a screenshot or a PDF back.
+
+A CNPJ lookup costs **$0.01** — billed per call, with no monthly plan, no contract
+and no minimum, which is unusual for Brazilian data APIs.
 
 - **API:** https://tools.miniframe.com.br
 - **Try a tool in one click:** [storefront](https://tryponcho.com/m/tools.miniframe.com.br)
@@ -24,19 +26,32 @@ nothing at all when it is idle.
 | `url_to_pdf` | `POST /url-to-pdf` | $0.03 | Render a web page as a PDF |
 | `compress_pdf` | `POST /compress-pdf` | $0.02 | Compress a PDF with Ghostscript |
 
-### Why these tools
+## What makes these worth paying for
 
-An agent with a Python sandbox can already parse a CSV or read a spreadsheet — it
-does not need to pay for that. These are the things it **cannot** do on its own:
-render JavaScript pages, run Ghostscript, or reach Brazilian public registries with
-sane fallbacks and normalized output.
+**Brazilian sources, handled properly.** CEP lookups hit BrasilAPI first and fall
+back to ViaCEP automatically, so a single upstream outage doesn't break your agent.
+Both sources come back through one normalized, English-keyed shape — your prompt
+never has to know which one answered.
+
+**Pix codes built to spec, locally.** The BR Code follows the Central Bank's EMV
+layout, CRC16 and all, generated on our side with no third-party payment provider in
+the path. The key you send is used to build the code and is not stored.
+
+**Privacy taken seriously.** CNPJ responses carry the company record — legal name,
+trade name, status, main activity, address — with personal fields left out by design.
+
+**Rendering that doesn't become an attack surface.** The web tools run real Chromium,
+so JavaScript pages resolve, and they refuse private and internal addresses (SSRF
+guard) before a page is ever loaded.
+
+**Nothing to install for the hard parts.** Ghostscript and a headless browser are the
+kind of dependency an agent sandbox doesn't have and can't install. That is exactly
+what this is for — anything an agent already does well on its own (parsing a CSV,
+reading a spreadsheet) is not sold here.
 
 ## Use it as an MCP server
 
 Works with Claude Desktop, Claude Code, Cursor, Windsurf, Cline and any MCP client.
-
-You need a wallet on **Base** funded with a small amount of USDC. Use a dedicated
-low-balance wallet — never your main one.
 
 ```json
 {
@@ -58,27 +73,13 @@ Restart the client and the seven tools appear. Then just ask:
 >
 > "What's the address for CEP 01310-100?"
 >
+> "Look up CNPJ 00.000.000/0001-91 and tell me if the company is active"
+>
 > "Turn https://example.com into Markdown so I can summarise it"
-
-### How the money works
-
-1. Your agent calls a tool.
-2. This server requests the endpoint, which answers **HTTP 402** with the price.
-3. This server signs a USDC payment with `EVM_PRIVATE_KEY` and retries.
-4. The result comes back to your agent.
-
-The private key stays on your machine and is **never sent to the API** — it only
-signs payments locally.
-
-| Variable | Required | Default |
-|---|---|---|
-| `EVM_PRIVATE_KEY` | yes | — |
-| `MINIFRAME_API_URL` | no | `https://tools.miniframe.com.br` |
 
 ## Use it as a plain HTTP API
 
-No MCP needed — every tool is a normal endpoint. Call it without payment to see the
-402 challenge (price, network, pay-to address and input schema):
+No MCP needed — every tool is a normal endpoint:
 
 ```bash
 curl -i -X POST https://tools.miniframe.com.br/cep \
@@ -86,16 +87,24 @@ curl -i -X POST https://tools.miniframe.com.br/cep \
   -d '{"cep":"01310100"}'
 ```
 
-To pay automatically, wrap your HTTP client with an x402 library — see
+## Paying
+
+Calls are billed per request in USDC on Base, using the
+[x402](https://x402.org) protocol: the endpoint answers `402` with the price, your
+client signs the payment and repeats the request. Most agent runtimes handle this
+for you.
+
+For MCP, set `EVM_PRIVATE_KEY` to a wallet funded with a few dollars of USDC — use a
+dedicated low-balance wallet, never your main one. The key stays on your machine and
+signs locally; it is never sent to the API.
+
+| Variable | Required | Default |
+|---|---|---|
+| `EVM_PRIVATE_KEY` | yes | — |
+| `MINIFRAME_API_URL` | no | `https://tools.miniframe.com.br` |
+
+Over plain HTTP, wrap your client with any x402 library — see
 [`examples/`](examples/) for a runnable Node script.
-
-## Notes
-
-- **CEP and CNPJ** return public postal and corporate registry data. Personal fields
-  are omitted from CNPJ responses by design.
-- **Pix codes** are generated locally following the Central Bank's EMV spec — the
-  key you send is used to build the code and is not stored.
-- **Web capture** endpoints refuse private and internal addresses (SSRF guard).
 
 ## License
 
