@@ -16,15 +16,25 @@ and no minimum, which is unusual for Brazilian data APIs.
 
 ## Tools
 
-| Tool (MCP) | Endpoint | Price | What it does |
-|---|---|---|---|
-| `pix_brcode` | `POST /pix/brcode` | $0.01 | Generate a Brazilian Pix payment code (BR Code / "Copia e Cola") + QR PNG |
-| `cep_lookup` | `POST /cep` | $0.005 | Resolve a Brazilian postal code to a full address |
-| `cnpj_lookup` | `POST /cnpj` | $0.01 | Look up a Brazilian company by CNPJ (public registry) |
-| `url_to_markdown` | `POST /url-to-markdown` | $0.02 | Fetch a JS-rendered page and return clean Markdown for an LLM |
-| `screenshot_url` | `POST /screenshot` | $0.03 | Screenshot a web page (PNG/JPEG) |
-| `url_to_pdf` | `POST /url-to-pdf` | $0.03 | Render a web page as a PDF |
-| `compress_pdf` | `POST /compress-pdf` | $0.02 | Compress a PDF with Ghostscript |
+- **pix_brcode** — Generate a Brazilian Pix payment code (BR Code / "Copia e Cola" string) plus a QR PNG. $0.01 per call.
+- **cep_lookup** — Resolve a Brazilian postal code (CEP) to a full street address. $0.005 per call.
+- **cnpj_lookup** — Look up a Brazilian company by its CNPJ number in the public registry. $0.01 per call.
+- **url_to_markdown** — Fetch a JavaScript-rendered web page and return clean Markdown for an LLM. $0.02 per call.
+- **screenshot_url** — Take a screenshot of a web page and return it as PNG or JPEG. $0.03 per call.
+- **url_to_pdf** — Render a web page as a PDF. $0.03 per call.
+- **compress_pdf** — Compress a PDF file with Ghostscript. $0.02 per call.
+
+Each tool maps to an HTTP endpoint of the same service:
+
+| Tool | Endpoint |
+|---|---|
+| `pix_brcode` | `POST /pix/brcode` |
+| `cep_lookup` | `POST /cep` |
+| `cnpj_lookup` | `POST /cnpj` |
+| `url_to_markdown` | `POST /url-to-markdown` |
+| `screenshot_url` | `POST /screenshot` |
+| `url_to_pdf` | `POST /url-to-pdf` |
+| `compress_pdf` | `POST /compress-pdf` |
 
 ## What makes these worth paying for
 
