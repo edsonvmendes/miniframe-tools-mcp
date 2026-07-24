@@ -135,6 +135,21 @@ server.tool(
   async (args) => callTool("/url-to-pdf", args)
 );
 
+server.tool(
+  "extract",
+  "Extract the structured data a web page already exposes — JSON-LD/schema.org, Open Graph, " +
+    "meta tags, headings, tables and links — plus any fields you pass as CSS selectors. Renders " +
+    "JavaScript first. Better than raw HTML when you want clean fields. Costs $0.02 per call.",
+  {
+    url: z.string().describe("Absolute http(s) URL of the page to read"),
+    selectors: z
+      .record(z.string())
+      .optional()
+      .describe('Optional map of name -> CSS selector, e.g. { "price": "span.price" }'),
+  },
+  async (args) => callTool("/extract", args)
+);
+
 // --- Documents ---
 
 server.tool(

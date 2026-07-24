@@ -22,6 +22,7 @@ and no minimum, which is unusual for Brazilian data APIs.
 - **url_to_markdown** — Fetch a JavaScript-rendered web page and return clean Markdown for an LLM. $0.02 per call.
 - **screenshot_url** — Take a screenshot of a web page and return it as PNG or JPEG. $0.03 per call.
 - **url_to_pdf** — Render a web page as a PDF. $0.03 per call.
+- **extract** — Extract the structured data a page exposes (JSON-LD, Open Graph, meta, tables, links) plus any fields you pass as CSS selectors. $0.02 per call.
 - **compress_pdf** — Compress a PDF file with Ghostscript. $0.02 per call.
 
 Each tool maps to an HTTP endpoint of the same service:
@@ -34,6 +35,7 @@ Each tool maps to an HTTP endpoint of the same service:
 | `url_to_markdown` | `POST /url-to-markdown` |
 | `screenshot_url` | `POST /screenshot` |
 | `url_to_pdf` | `POST /url-to-pdf` |
+| `extract` | `POST /extract` |
 | `compress_pdf` | `POST /compress-pdf` |
 
 ## What makes these worth paying for
