@@ -98,6 +98,15 @@ server.tool(
   async (args) => callTool("/cnpj", args)
 );
 
+server.tool(
+  "empresa_profile",
+  "Consolidated Brazilian company profile to qualify a lead. Looks up the CNPJ, completes the address " +
+    "via CEP, and adds derived flags: is_active, is_headquarters, age_years, MEI/Simples, size and risk " +
+    "signals. Richer than a raw registry lookup. Personal fields omitted. Costs $0.02 per call.",
+  { cnpj: z.string().describe("Brazilian company registration number, 14 digits") },
+  async (args) => callTool("/empresa", args)
+);
+
 // --- Web capture ---
 
 server.tool(

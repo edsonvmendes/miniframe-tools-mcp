@@ -19,6 +19,7 @@ and no minimum, which is unusual for Brazilian data APIs.
 - **pix_brcode** — Generate a Brazilian Pix payment code (BR Code / "Copia e Cola" string) plus a QR PNG. $0.01 per call.
 - **cep_lookup** — Resolve a Brazilian postal code (CEP) to a full street address. $0.005 per call.
 - **cnpj_lookup** — Look up a Brazilian company by its CNPJ number in the public registry. $0.01 per call.
+- **empresa_profile** — Consolidated Brazilian company profile to qualify a lead: registry + address completed via CEP + derived flags (active, headquarters, age, MEI/Simples, size, risk). $0.02 per call.
 - **url_to_markdown** — Fetch a JavaScript-rendered web page and return clean Markdown for an LLM. $0.02 per call.
 - **screenshot_url** — Take a screenshot of a web page and return it as PNG or JPEG. $0.03 per call.
 - **url_to_pdf** — Render a web page as a PDF. $0.03 per call.
@@ -32,6 +33,7 @@ Each tool maps to an HTTP endpoint of the same service:
 | `pix_brcode` | `POST /pix/brcode` |
 | `cep_lookup` | `POST /cep` |
 | `cnpj_lookup` | `POST /cnpj` |
+| `empresa_profile` | `POST /empresa` |
 | `url_to_markdown` | `POST /url-to-markdown` |
 | `screenshot_url` | `POST /screenshot` |
 | `url_to_pdf` | `POST /url-to-pdf` |
